@@ -19,6 +19,3 @@ def sign_up_response():
     }
     response = requests.request("POST", url, headers=headers, data=payload, timeout=5)
     return response
-
-
-
