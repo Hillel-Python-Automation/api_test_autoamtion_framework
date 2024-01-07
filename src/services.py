@@ -15,7 +15,7 @@ class ApiService(object):
 
     @allure.step('POST: {endpoint}')
     def _post(self, endpoint, body, headers):
-        return requests.post(f"{self._base_url}{endpoint}", data=json.dumps(body), headers=headers)
+        return requests.post(f"{self._base_url}{endpoint}", data=body, headers=headers)
 
     @allure.step('PUT: {endpoint}')
     def _put(self, endpoint, body, headers):
@@ -38,6 +38,7 @@ class UserApiService(ApiService):
     def get_user_profile(self, headers):
         return self._get(endpoint="/users/profile", headers=headers)
 
+    @allure.step
     def get_user_settings(self, headers):
         return self._get(endpoint="/users/settings", headers=headers)
 
@@ -65,3 +66,35 @@ class UserApiService(ApiService):
 class CarApiService(ApiService):
     def __init__(self):
         super().__init__()
+
+    @allure.step
+    def create_new_car(self, body, headers):
+        return self._post(endpoint="/cars", body=body, headers=headers)
+
+    @allure.step
+    def get_car_brands(self, headers):
+        return self._get(endpoint="/cars/brands", headers=headers)
+
+    @allure.step
+    def get_car_brand_by_id(self, headers, brand_id):
+        return self._get(endpoint=f"/cars/brands/{brand_id}", headers=headers)
+
+    @allure.step
+    def get_car_models(self, headers):
+        return self._get(endpoint="/cars/models", headers=headers)
+
+    @allure.step
+    def get_car_model_by_id(self, headers, model_id):
+        return self._get(endpoint=f"/cars/models/{model_id}", headers=headers)
+
+    @allure.step
+    def get_current_user_car_by_id(self, headers, car_id):
+        return self._get(endpoint=f"/cars/{car_id}", headers=headers)
+
+    @allure.step
+    def edit_existing_car(self, body, headers, car_id):
+        return self._put(endpoint=f"/cars/{car_id}", body=body, headers=headers)
+
+    @allure.step
+    def delete_existing_car(self, headers, car_id):
+        return self._delete(endpoint=f"/cars/{car_id}", headers=headers)
