@@ -100,3 +100,4 @@ def test_delete_existing_car(sign_up_response, headers, car_id):
 
     assert response.status_code == 200
     assert response_json['status'] == 'ok'
+
