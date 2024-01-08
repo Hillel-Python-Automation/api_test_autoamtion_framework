@@ -116,3 +116,4 @@ def test_delete_users_account_and_session(sign_up_response, headers):
 
     assert response.status_code == 200, 'Status code broken'
     assert response_json['status'] == 'ok'
+
