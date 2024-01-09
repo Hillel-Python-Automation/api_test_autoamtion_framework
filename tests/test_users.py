@@ -1,7 +1,7 @@
 import random
 import json
 
-from src.services import UserApiService
+from api_test_autoamtion_framework.src.services import UserApiService
 
 user_api = UserApiService()
 
