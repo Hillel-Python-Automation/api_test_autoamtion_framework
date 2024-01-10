@@ -1,5 +1,4 @@
 import logging
-
 import allure
 
 
@@ -18,4 +17,3 @@ class AssertableResponse(object):
     @allure.step
     def get_field(self, name):
         return self._response.json()[name]
-
