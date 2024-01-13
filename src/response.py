@@ -1,3 +1,4 @@
+import json
 import logging
 
 import allure
@@ -5,7 +6,7 @@ import allure
 
 class AssertableResponse(object):
     def __init__(self, response):
-        logging.info('Request: url={}, body={}'.format(response.request.url, response.request.body))
+        logging.info('Request: method={}, url={}, body={}'.format(response.request.method, response.request.url, response.request.body))
         logging.info('Response: status_code={}, body={}'.format(response.status_code, response.text))
 
         self._response = response
@@ -19,3 +20,6 @@ class AssertableResponse(object):
     def get_field(self, name):
         return self._response.json()[name]
 
+    @allure.step
+    def get_request_body(self):
+        return self._response.request.body

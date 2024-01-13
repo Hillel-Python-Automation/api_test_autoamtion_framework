@@ -11,8 +11,8 @@ class ApiService(object):
         self._base_url = os.environ['BASE_URL']
 
     @allure.step('GET: {endpoint}')
-    def _get(self, endpoint, headers):
-        return requests.get(f"{self._base_url}{endpoint}", headers=headers)
+    def _get(self, endpoint, headers, param=None):
+        return requests.get(f"{self._base_url}{endpoint}", params=param, headers=headers)
 
     @allure.step('POST: {endpoint}')
     def _post(self, endpoint, body, headers):
@@ -98,3 +98,34 @@ class CarApiService(ApiService):
     @allure.step
     def delete_existing_car(self, headers, created_car_id):
         return AssertableResponse(self._delete(endpoint=f"/cars/{created_car_id}", headers=headers))
+
+
+class ExpensesApiService(ApiService):
+    def __init__(self):
+        super().__init__()
+
+    @allure.step
+    def create_an_expense(self, body, headers):
+        headers['Content-Type'] = 'application/json'
+        return AssertableResponse(self._post(endpoint="/expenses", body=body, headers=headers))
+
+    @allure.step
+    def get_all_expenses(self, headers, page, carId):
+        param = {
+            "page": page,
+            "carId": carId
+        }
+        return AssertableResponse(self._get(endpoint="/expenses", param=param, headers=headers))
+
+    @allure.step
+    def get_an_expense_by_id(self, headers, expenseId):
+        return AssertableResponse(self._get(endpoint=f"/expenses/{expenseId}", headers=headers))
+
+    @allure.step
+    def edit_an_expense(self, body, headers, expenseId):
+        headers['Content-Type'] = 'application/json'
+        return AssertableResponse(self._put(endpoint=f"/expenses/{expenseId}", body=body, headers=headers))
+
+    @allure.step
+    def delete_an_expense(self, headers, expenseId):
+        return AssertableResponse(self._delete(endpoint=f"/expenses/{expenseId}", headers=headers))
