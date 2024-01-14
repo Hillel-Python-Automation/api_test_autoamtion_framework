@@ -1,4 +1,4 @@
 .venv/
 .idea/
 __pycache__/
-allure_result_folder/
+allure-results
