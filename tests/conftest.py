@@ -3,6 +3,9 @@ import pytest
 import requests
 import json
 import random
+from src.services import CarApiService, ExpensesApiService
+car_api = CarApiService()
+expenses_api = ExpensesApiService()
 
 
 @pytest.fixture(scope='session')
@@ -29,3 +32,21 @@ def headers(sign_up_response):
 @pytest.fixture(scope='session')
 def url():
     return os.environ['BASE_URL']
+
+
+@pytest.fixture(scope='session')
+def create_new_car_for_session(sign_up_response, headers):
+    payload = json.dumps({
+        "carBrandId": 1,
+        "carModelId": 1,
+        "mileage": 1
+    })
+    headers['Content-Type'] = 'application/json'
+    response = car_api.create_new_car(body=payload, headers=headers)
+    return response
+
+
+@pytest.fixture()
+def car_id(create_new_car_for_session):
+    return create_new_car_for_session.get_field('data')['id']
+
