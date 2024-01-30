@@ -1,6 +1,5 @@
 import random
 import json
-
 import pytest
 from src.services import CarApiService
 
@@ -18,6 +17,8 @@ def test_create_new_car(sign_up_response, headers):
     assert response.is_status_code(201)
     assert response.get_field('status') == 'ok'
     assert response.get_field('data')['carBrandId'] == int(payload.split()[1][0])
+    assert response.get_field('data')['brand'] == 'Audi'
+    assert response.get_field('data')['model'] == 'TT'
 
 
 def test_get_car_brand(sign_up_response, headers):
@@ -57,6 +58,8 @@ def test_get_current_user_car_by_id(sign_up_response, headers, car_id):
 
     assert response.is_status_code(200)
     assert response.get_field('status') == 'ok'
+    assert response.get_field('data')['brand'] == 'Audi'
+    assert response.get_field('data')['model'] == 'TT'
 
 
 def test_edit_existing_car(sign_up_response, headers, car_id):
@@ -71,6 +74,8 @@ def test_edit_existing_car(sign_up_response, headers, car_id):
     assert response.get_field('status') == 'ok'
     assert response.get_field('data')['mileage'] == int(payload.split()[5][:-1])
     assert response.get_field('data')['carBrandId'] == int(payload.split()[1][:-1])
+    assert response.get_field('data')['brand'] == 'BMW'
+    assert response.get_field('data')['model'] == '3'
 
 
 def test_delete_existing_car(sign_up_response, headers, car_id):
