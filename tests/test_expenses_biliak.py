@@ -9,11 +9,11 @@ expense_api = ExpensesApiService()
 
 @pytest.fixture(scope='module')
 def create_expense_by_id(headers, car_id):
-    current_timestamp = datetime.datetime.now().isoformat()
+    current_timestamp = datetime.datetime.utcnow() + datetime.timedelta(seconds=3)
     mileage = random.randint(2, 13)
     body = {
         "carId": car_id,
-        "reportedAt": current_timestamp,
+        "reportedAt": current_timestamp.isoformat(),
         "mileage": mileage,
         "liters": 11,
         "totalCost": 11,
@@ -26,10 +26,10 @@ def create_expense_by_id(headers, car_id):
 
 
 def test_create_an_expense(headers, car_id):
-    current_timestamp = datetime.datetime.now().isoformat()
+    current_timestamp = datetime.datetime.utcnow() + datetime.timedelta(seconds=3)
     body = {
         "carId": car_id,
-        "reportedAt": current_timestamp,
+        "reportedAt": current_timestamp.isoformat(),
         "mileage": 12,
         "liters": 15,
         "totalCost": 45,
