@@ -64,7 +64,7 @@ def test_edits_users_settings(sign_up_response, headers):
     response = user_api.edit_user_settings(body=payload, headers=headers)
     payload_json = json.loads(payload)
 
-    assert response.is_status_code(201)
+    assert response.is_status_code(200)
     assert response.get_field('status') == 'ok'
     assert response.get_field('data')['currency'] == payload_json['currency']
     assert response.get_field('data')['distanceUnits'] == payload_json['distanceUnits']
