@@ -6,6 +6,16 @@ import random
 
 from src.services import CarApiService
 
+@pytest.fixture(scope='module')
+def new_car(sign_up_response, headers):
+    payload = json.dumps({
+        "carBrandId": 1,
+        "carModelId": 1,
+        "mileage": 1
+    })
+    response = CarApiService().create_new_car(body=payload, headers=headers)
+    return response.get_field('data')
+
 
 @pytest.fixture(scope='session')
 def sign_up_response(url):
